@@ -1,0 +1,29 @@
+import spacy
+from spacy.tokens import Span
+from spacy import displacy
+nlp = spacy.load('en_core_web_sm')
+sen = nlp('Manchester United is looking to sign Harry Kane for $80 million')
+print(sen.ents)
+for i in sen.ents:
+    print(i.text + '-' + i.label_ + '-' + spacy.explain(i.label_))
+# adding entity in spacy
+sen2 = nlp('pop-corn ai wants to open a new AI company in India')
+
+ORG = sen2.vocab.strings[u'ORG']
+new_entity = Span(sen2, 0, 4, label=ORG) # 1 way to add entity for sentence
+#Span.append(new_entity)
+sen2.ents = list(sen2.ents) + [new_entity]
+print(sen2.ents)
+
+
+TRAIN_DATA = [
+    ("Who is Shaka Khan?", {"entities": [(7, 17, "PERSON")]}),
+    ("I like London and Berlin.", {"entities": [(7, 13, "LOC"), (18, 24, "LOC")]}),
+]
+
+for texts, annotations in TRAIN_DATA:
+    print(texts)
+    print(annotations)
+    for ent in annotations.get("entities"):
+        print(texts)
+        print(ent[2])
